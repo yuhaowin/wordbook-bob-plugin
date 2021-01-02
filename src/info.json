@@ -1,0 +1,61 @@
+{
+  "identifier": "youdao.word.book.plugin",
+  "version": "0.1.0",
+  "category": "translate",
+  "name": "有道词典单词本",
+  "summary": "youdao word book plugin, add word to youdao word book",
+  "icon": "",
+  "author": "Eric_余浩",
+  "homepage": "https://blog.yuhaowin.com/post/youdao-word-book-plugin/",
+  "appcast": "",
+  "minBobVersion": "0.5.4",
+  "options": [
+    {
+      "identifier": "account",
+      "type": "text",
+      "title": "邮箱账号"
+    },
+    {
+      "identifier": "password",
+      "type": "text",
+      "title": "邮箱密码"
+    },
+    {
+      "identifier": "login_cookie",
+      "type": "text",
+      "title": "COOKIE"
+    },
+    {
+      "identifier": "login_option",
+      "type": "menu",
+      "title": "登录方式",
+      "defaultValue": "1",
+      "menuValues": [
+        {
+          "title": "COOKIE",
+          "value": "1"
+        },
+        {
+          "title": "PASSWORD",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "identifier": "is_save",
+      "type": "menu",
+      "title": "是否保存",
+      "defaultValue": "1",
+      "menuValues": [
+        {
+          "title": "是",
+          "value": "1"
+        },
+        {
+          "title": "否",
+          "value": "0"
+        }
+      ]
+    }
+  ]
+}
