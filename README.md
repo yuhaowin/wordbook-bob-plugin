@@ -6,12 +6,12 @@
 ## 特性
 + 只实现了 [通过 cookie 的方式](http://account.youdao.com/login) ，添加单词到单词本。
 
-![001058](https://image.yuhaowin.com/2021/01/03/001058.png)
+<p><img width="414px" src="https://image.yuhaowin.com/2021/01/03/001058.png" alt=""/></p>
 
 ## 安装
-![013421](https://image.yuhaowin.com/2021/01/03/013421.png)
+<p><img width="414px" src="https://image.yuhaowin.com/2021/01/03/013421.png" alt=""/></p>
 
 ## 效果
-![013250](https://image.yuhaowin.com/2021/01/03/013250.png)
+<p><img width="414px" src="https://image.yuhaowin.com/2021/01/03/013250.png" alt=""/></p>
 
-![013723](https://image.yuhaowin.com/2021/01/03/013723.jpeg)
+<p><img width="414px" src="https://image.yuhaowin.com/2021/01/03/013723.jpeg" alt=""/></p>
