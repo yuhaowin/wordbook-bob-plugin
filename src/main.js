@@ -27,8 +27,8 @@ function translate(query, completion) {
     var fromLanguage = query.detectFrom;
     var login_option = $option.login_option;
 
-    if (fromLanguage != 'en') {
-        completion({'result': buildResult("中文无需添加单词本")});
+    if (fromLanguage != 'en' || text.search(' ') > 0) {
+        completion({'result': buildResult("中文、非英语单词无需添加单词本")});
         return;
     }
 
@@ -58,7 +58,6 @@ function translate(query, completion) {
 var login_header = {
     'Host': 'logindict.youdao.com',
     'Connection': 'keep-alive',
-    'Content-Length': 225,
     'Cache-Control': 'max-age=0',
     'Upgrade-Insecure-Requests': 1,
     'Origin': 'http://account.youdao.com',
@@ -93,9 +92,8 @@ function login(username, password_md5) {
         },
         handler: function (resp) {
             var data = resp.data
-            $log.info('以下是接口返回值-------------');
-            $log.info(resp.data);
-            $log.info(resp.response);
+            //$log.info('login 接口返回值 data: ' + JSON.stringify(resp.data));
+            //$log.info('login 接口返回值 response: ' + JSON.stringify(resp.response));
         }
     });
 }
@@ -121,7 +119,8 @@ function addWord(cookie, word) {
         },
         handler: function (resp) {
             var data = resp.data
-            $log.info('接口返回值: ' + JSON.stringify(data));
+            //$log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
+            //$log.info('addWord 接口返回值 response : ' + JSON.stringify(resp.response));
         }
     });
 }
