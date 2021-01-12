@@ -1,6 +1,6 @@
 {
   "identifier": "youdao.word.book.plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "category": "translate",
   "name": "有道词典单词本",
   "summary": "youdao word book plugin, add word to youdao word book",

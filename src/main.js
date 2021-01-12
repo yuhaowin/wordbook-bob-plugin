@@ -17,10 +17,21 @@ function buildResult(res) {
     return result;
 }
 
+function buildError(res) {
+    var result = {
+        'type': 'param',
+        'message': res,
+        'addtion': '无'
+    }
+    return result;
+}
+
+// override
 function supportLanguages() {
     return ['auto', 'zh-Hans', 'en'];
 }
 
+// overide
 function translate(query, completion) {
     var login_cookie;
     var text = query.text;
@@ -32,27 +43,19 @@ function translate(query, completion) {
         return;
     }
 
-    if (login_option == 2) {
+    if (login_option == 1) {
+        login_cookie = $option.login_cookie;
+    } else if (login_option == 2) {
         $log.info('获取的用户名、密码：【' + $option.account + '】、【' + $option.password + '】');
         login($option.account, CryptoJS.MD5($option.password));
-    } else if (login_option == 1) {
-        login_cookie = $option.login_cookie;
     }
 
     if (login_cookie) {
         $log.info('cookie:' + login_cookie);
-        addWord(login_cookie, text);
+        addWord(login_cookie, text, completion);
     } else {
-        completion({
-            'error': {
-                'type': 'param',
-                'message': '缺失 cookie',
-                'addtion': '无'
-            }
-        });
+        completion({'error': buildError('cookie 缺失')});
     }
-    // 成功
-    completion({'result': buildResult("添加单词本成功")});
 }
 
 var login_header = {
@@ -98,7 +101,7 @@ function login(username, password_md5) {
     });
 }
 
-function addWord(cookie, word) {
+function addWord(cookie, word, completion) {
     $http.get({
         url: ADD_WORD_URL,
         header: {
@@ -117,10 +120,15 @@ function addWord(cookie, word) {
             'le': 'eng',
             'q': word
         },
-        handler: function (resp) {
-            var data = resp.data
-            //$log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
-            //$log.info('addWord 接口返回值 response : ' + JSON.stringify(resp.response));
+        handler: function (res) {
+            var data = res.data;
+            var message = data.message;
+            if (message === 'nouser') {
+                completion({'error': buildError('cookie 已经过期，请重新获取。')});
+            } else {
+                completion({'result': buildResult("添加单词本成功")});
+            }
+            $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
         }
     });
 }
