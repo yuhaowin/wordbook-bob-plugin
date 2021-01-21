@@ -1,13 +1,13 @@
 {
   "identifier": "youdao.word.book.plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "category": "translate",
   "name": "有道词典单词本",
   "summary": "youdao word book plugin, add word to youdao word book",
   "icon": "",
   "author": "Eric_余浩",
   "homepage": "https://blog.yuhaowin.com/post/youdao-word-book-plugin/",
-  "appcast": "",
+  "appcast": "https://raw.githubusercontent.com/yuhaowin/youdao-wordbook-bob-plugin/main/appcast.json",
   "minBobVersion": "0.5.4",
   "options": [
     {
