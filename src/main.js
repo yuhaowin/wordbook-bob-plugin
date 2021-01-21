@@ -31,7 +31,7 @@ function supportLanguages() {
     return ['auto', 'zh-Hans', 'en'];
 }
 
-// overide
+// override
 function translate(query, completion) {
     var login_cookie;
     var text = query.text;
