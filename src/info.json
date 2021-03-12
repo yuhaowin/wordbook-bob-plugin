@@ -1,9 +1,9 @@
 {
   "identifier": "youdao.word.book.plugin",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "category": "translate",
-  "name": "有道词典单词本",
-  "summary": "youdao word book plugin, add word to youdao word book",
+  "name": "词典单词本插件",
+  "summary": "word book plugin, add word to youdao/eudic word book",
   "icon": "",
   "author": "Eric_余浩",
   "homepage": "https://blog.yuhaowin.com/post/youdao-word-book-plugin/",
@@ -11,51 +11,25 @@
   "minBobVersion": "0.5.4",
   "options": [
     {
-      "identifier": "account",
-      "type": "text",
-      "title": "邮箱账号"
-    },
-    {
-      "identifier": "password",
-      "type": "text",
-      "title": "邮箱密码"
-    },
-    {
-      "identifier": "login_cookie",
-      "type": "text",
-      "title": "COOKIE"
-    },
-    {
-      "identifier": "login_option",
+      "identifier": "saveOption",
       "type": "menu",
-      "title": "登录方式",
+      "title": "选择词典",
       "defaultValue": "1",
       "menuValues": [
         {
-          "title": "COOKIE",
+          "title": "有道词典",
           "value": "1"
         },
         {
-          "title": "PASSWORD",
+          "title": "欧路词典",
           "value": "2"
         }
       ]
     },
     {
-      "identifier": "is_save",
-      "type": "menu",
-      "title": "是否保存",
-      "defaultValue": "1",
-      "menuValues": [
-        {
-          "title": "是",
-          "value": "1"
-        },
-        {
-          "title": "否",
-          "value": "0"
-        }
-      ]
+      "identifier": "authorization",
+      "type": "text",
+      "title": "认证信息"
     }
   ]
 }

@@ -1,9 +1,8 @@
 /**
- * 有道单词本插件
+ * 单词本插件
  */
-var CryptoJS = require("crypto-js");
-var LOGIN_URL = "https://logindict.youdao.com/login/acc/login";
-var ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
+var YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
+var EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
 
 function buildResult(res) {
     var result = {
@@ -33,77 +32,64 @@ function supportLanguages() {
 
 // override
 function translate(query, completion) {
-    var login_cookie;
     var text = query.text;
     var fromLanguage = query.detectFrom;
-    var login_option = $option.login_option;
+    var saveOption = $option.saveOption;
+    var authorization = $option.authorization;
 
     if (fromLanguage != 'en' || text.search(' ') > 0) {
         completion({'result': buildResult("中文、非英语单词无需添加单词本")});
         return;
     }
 
-    if (login_option == 1) {
-        login_cookie = $option.login_cookie;
-    } else if (login_option == 2) {
-        $log.info('获取的用户名、密码：【' + $option.account + '】、【' + $option.password + '】');
-        login($option.account, CryptoJS.MD5($option.password));
-    }
-
-    if (login_cookie) {
-        $log.info('cookie:' + login_cookie);
-        addWord(login_cookie, text, completion);
+    if (authorization) {
+        $log.info('cookie:' + authorization);
+        addWord(saveOption, authorization, text, completion);
     } else {
-        completion({'error': buildError('cookie 缺失')});
+        completion({'error': buildError('「认证信息」缺失')});
     }
 }
 
-var login_header = {
-    'Host': 'logindict.youdao.com',
-    'Connection': 'keep-alive',
-    'Cache-Control': 'max-age=0',
-    'Upgrade-Insecure-Requests': 1,
-    'Origin': 'http://account.youdao.com',
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-    'Sec-Fetch-Site': 'cross-site',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-User': '?1',
-    'Sec-Fetch-Dest': 'document',
-    'Referer': 'http://account.youdao.com/',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept-Language': 'zh-CN,zh;q=0.9'
+function addWord(saveOption, authorization, word, completion) {
+    if (saveOption == 1) { // 保存有道单词本
+        addWordYoudao(authorization, word, completion);
+    } else if (saveOption == 2) { // 保存欧路单词本
+        addWordEudic(authorization, word, completion);
+    }
 }
 
-function login(username, password_md5) {
+function addWordEudic(token, word, completion) {
     $http.post({
-        url: LOGIN_URL,
-        header: login_header,
-        body: {
-            app: 'web',
-            tp: 'urstoken',
-            cf: 3,
-            fr: 1,
-            ru: 'http://dict.youdao.com/wordbook/wordlist?keyfrom=dict2.index#/',
-            product: 'DICT',
-            type: 1,
-            um: true,
-            username: username,
-            password: password_md5,
-            agreePrRule: 1
+        url: EUDIC_ADD_WORD_URL,
+        header: {
+            'Authorization': token,
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
         },
-        handler: function (resp) {
-            var data = resp.data
-            //$log.info('login 接口返回值 data: ' + JSON.stringify(resp.data));
-            //$log.info('login 接口返回值 response: ' + JSON.stringify(resp.response));
+        body: {
+            "id": "0", // 单词本 id
+            "language": "en",
+            "words": [
+                word
+            ]
+        },
+        handler: function (res) {
+            var data = res.data;
+            var response = res.response;
+            var statusCode = response.statusCode;
+            if (statusCode === 201) {
+                completion({'result': buildResult("添加单词本成功")});
+            } else {
+                completion({'error': buildError('token 已经过期，请重新获取。')});
+                $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
+            }
         }
     });
 }
 
-function addWord(cookie, word, completion) {
+function addWordYoudao(cookie, word, completion) {
     $http.get({
-        url: ADD_WORD_URL,
+        url: YOUDAO_ADD_WORD_URL,
         header: {
             'Host': 'dict.youdao.com',
             'Referer': 'http://dict.youdao.com/wordbook/wordlist?keyfrom=dict2.index',
@@ -123,14 +109,13 @@ function addWord(cookie, word, completion) {
         handler: function (res) {
             var data = res.data;
             var message = data.message;
-            if (message === 'nouser') {
-                completion({'error': buildError('cookie 已经过期，请重新获取。')});
-            } else {
+            if (!message === 'nouser') {
                 completion({'result': buildResult("添加单词本成功")});
+            } else {
+                completion({'error': buildError('cookie 已经过期，请重新获取。')});
+                $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
             }
-            $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
         }
     });
 }
-
 
