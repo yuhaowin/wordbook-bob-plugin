@@ -1,6 +1,9 @@
 /**
  * 单词本插件
  */
+
+// 欧路单词本 ID
+var EUDIC_WORD_BOOK_ID
 var YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
 var EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
 
@@ -34,8 +37,9 @@ function supportLanguages() {
 function translate(query, completion) {
     var text = query.text;
     var fromLanguage = query.detectFrom;
-    var saveOption = $option.saveOption;
+    var selectDict = $option.selectDict;
     var authorization = $option.authorization;
+    EUDIC_WORD_BOOK_ID = $option.wordbookId;
 
     if (fromLanguage != 'en' || text.search(' ') > 0) {
         completion({'result': buildResult("中文、非英语单词无需添加单词本")});
@@ -43,18 +47,21 @@ function translate(query, completion) {
     }
 
     if (authorization) {
-        $log.info('cookie:' + authorization);
-        addWord(saveOption, authorization, text, completion);
+        addWord(selectDict, authorization, text, completion);
     } else {
         completion({'error': buildError('「认证信息」缺失')});
     }
 }
 
-function addWord(saveOption, authorization, word, completion) {
-    if (saveOption == 1) { // 保存有道单词本
+function addWord(selectDict, authorization, word, completion) {
+    if (selectDict == 1) { // 保存有道单词本
         addWordYoudao(authorization, word, completion);
-    } else if (saveOption == 2) { // 保存欧路单词本
-        addWordEudic(authorization, word, completion);
+    } else if (selectDict == 2) { // 保存欧路单词本
+        if (EUDIC_WORD_BOOK_ID) {
+            addWordEudic(authorization, word, completion);
+        } else {
+            queryEudicWordbookIds(authorization, completion)
+        }
     }
 }
 
@@ -67,7 +74,7 @@ function addWordEudic(token, word, completion) {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
         },
         body: {
-            "id": "0", // 单词本 id
+            "id": EUDIC_WORD_BOOK_ID, // 单词本 id
             "language": "en",
             "words": [
                 word
@@ -119,3 +126,23 @@ function addWordYoudao(cookie, word, completion) {
     });
 }
 
+function queryEudicWordbookIds(token, completion) {
+    $http.get({
+        url: 'https://api.frdic.com/api/open/v1/studylist/category?language=en',
+        header: {
+            'Authorization': token,
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+        },
+        handler: function (res) {
+            var statusCode = res.response.statusCode;
+            if (statusCode === 200) {
+                var data = res.data.data;
+                completion({'result': buildResult("单词本列表：\r\n" + JSON.stringify(data, null, 4))});
+                $log.info('接口返回值 data : ' + JSON.stringify(data));
+            } else {
+                completion({'error': buildError('token 已经过期，请重新获取。')});
+            }
+        }
+    });
+}

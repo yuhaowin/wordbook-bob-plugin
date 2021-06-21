@@ -1,6 +1,6 @@
 {
-  "identifier": "youdao.word.book.plugin",
-  "version": "0.1.3",
+  "identifier": "wordbook-bob-plugin",
+  "version": "0.1.4",
   "category": "translate",
   "name": "词典单词本插件",
   "summary": "word book plugin, add word to youdao/eudic word book",
@@ -11,7 +11,7 @@
   "minBobVersion": "0.5.4",
   "options": [
     {
-      "identifier": "saveOption",
+      "identifier": "selectDict",
       "type": "menu",
       "title": "选择词典",
       "defaultValue": "1",
@@ -30,6 +30,11 @@
       "identifier": "authorization",
       "type": "text",
       "title": "认证信息"
+    },
+    {
+      "identifier": "wordbookId",
+      "type": "text",
+      "title": "单词本ID"
     }
   ]
 }
