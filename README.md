@@ -5,10 +5,10 @@
 
 ## 特性
 
-1、`有道词典` 仅实现了通过 cookie 的方式添加单词到单词本；无法使用账号登录，因为 Bob 提供的 API 无法获取到请求返回的
-cookie。[issue 115](https://github.com/ripperhe/Bob/issues/115)；
+1、`有道词典` 仅实现了通过 cookie 的方式添加单词到单词本；无法使用账号登录，[因为 Bob 提供的 API 无法获取到请求返回的
+cookie](https://github.com/ripperhe/Bob/issues/115)。
 
-2、`欧路词典` 是通过开放 api 添加到指导单词本，但是需要指定单词本的ID，可以通过 api 获取单词本id。
+2、`欧路词典` 是通过开放 api 添加到指导单词本，但是需要指定单词本的 id，可以通过 api 获取单词本 id。
 
 ## 设置
 
