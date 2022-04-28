@@ -4,9 +4,9 @@
 
 // 欧路单词本 ID
 var EUDIC_WORD_BOOK_ID
-const YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
-const EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
-const EUDIC_BOOK_LIST_URL = "https://api.frdic.com/api/open/v1/studylist/category?language=en";
+var YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
+var EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
+var EUDIC_BOOK_LIST_URL = "https://api.frdic.com/api/open/v1/studylist/category?language=en";
 
 function buildResult(res) {
     var result = {
