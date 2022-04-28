@@ -1,13 +1,13 @@
 {
   "identifier": "wordbook-bob-plugin",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "category": "translate",
   "name": "词典单词本插件",
   "summary": "word book plugin, add word to youdao/eudic word book",
   "icon": "",
   "author": "Eric_余浩",
-  "homepage": "https://blog.yuhaowin.com/post/youdao-word-book-plugin/",
-  "appcast": "https://raw.githubusercontent.com/yuhaowin/youdao-wordbook-bob-plugin/main/appcast.json",
+  "homepage": "https://blog.yuhaowin.com/post/2021-01-03-youdao-word-book-plugin",
+  "appcast": "https://raw.githubusercontent.com/yuhaowin/wordbook-bob-plugin/main/appcast.json",
   "minBobVersion": "0.5.4",
   "options": [
     {

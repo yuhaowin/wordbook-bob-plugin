@@ -4,17 +4,18 @@
 
 // 欧路单词本 ID
 var EUDIC_WORD_BOOK_ID
-var YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
-var EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
+const YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
+const EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
+const EUDIC_BOOK_LIST_URL = "https://api.frdic.com/api/open/v1/studylist/category?language=en";
 
 function buildResult(res) {
     var result = {
         "from": "en",
         "to": "zh-Hans",
+        "toParagraphs": [res],
         "fromParagraphs": [
             "success add to word book"
-        ],
-        "toParagraphs": [res]
+        ]
     }
     return result;
 }
@@ -56,7 +57,8 @@ function translate(query, completion) {
 function addWord(selectDict, authorization, word, completion) {
     if (selectDict == 1) { // 保存有道单词本
         addWordYoudao(authorization, word, completion);
-    } else if (selectDict == 2) { // 保存欧路单词本
+    }
+    if (selectDict == 2) { // 保存欧路单词本
         if (EUDIC_WORD_BOOK_ID) {
             addWordEudic(authorization, word, completion);
         } else {
@@ -85,7 +87,7 @@ function addWordEudic(token, word, completion) {
             var response = res.response;
             var statusCode = response.statusCode;
             if (statusCode === 201) {
-                completion({'result': buildResult("添加单词本成功")});
+                completion({'result': buildResult("添加单词成功")});
             } else {
                 completion({'error': buildError('token 已经过期，请重新获取。')});
                 $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
@@ -98,26 +100,26 @@ function addWordYoudao(cookie, word, completion) {
     $http.get({
         url: YOUDAO_ADD_WORD_URL,
         header: {
+            'Cookie': cookie,
             'Host': 'dict.youdao.com',
-            'Referer': 'http://dict.youdao.com/wordbook/wordlist?keyfrom=dict2.index',
             'Upgrade-Insecure-Requests': 1,
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'application/json, text/plain, */*',
             'Accept-Encoding': 'gzip, deflate',
             'Accept-Language': 'zh-CN,zh;q=0.9',
-            'Cookie': cookie
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Referer': 'http://dict.youdao.com/wordbook/wordlist?keyfrom=dict2.index',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
         },
         body: {
-            'action': 'addword',
+            'q': word,
             'le': 'eng',
-            'q': word
+            'action': 'addword'
         },
         handler: function (res) {
             var data = res.data;
             var message = data.message;
             if (!message === 'nouser') {
-                completion({'result': buildResult("添加单词本成功")});
+                completion({'result': buildResult("添加单词成功")});
             } else {
                 completion({'error': buildError('cookie 已经过期，请重新获取。')});
                 $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
@@ -128,7 +130,7 @@ function addWordYoudao(cookie, word, completion) {
 
 function queryEudicWordbookIds(token, completion) {
     $http.get({
-        url: 'https://api.frdic.com/api/open/v1/studylist/category?language=en',
+        url: EUDIC_BOOK_LIST_URL,
         header: {
             'Authorization': token,
             'Content-Type': 'application/json',
@@ -139,9 +141,9 @@ function queryEudicWordbookIds(token, completion) {
             if (statusCode === 200) {
                 var data = res.data.data;
                 completion({'result': buildResult("单词本列表：\r\n" + JSON.stringify(data, null, 4))});
-                $log.info('接口返回值 data : ' + JSON.stringify(data));
             } else {
                 completion({'error': buildError('token 已经过期，请重新获取。')});
+                $log.info('接口返回值 data : ' + JSON.stringify(data));
             }
         }
     });

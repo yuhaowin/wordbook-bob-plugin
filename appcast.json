@@ -1,6 +1,13 @@
 {
-  "identifier": "youdao.word.book.plugin",
+  "identifier": "wordbook-bob-plugin",
   "versions": [
+    {
+      "version": "0.1.5",
+      "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.5",
+      "sha256": "9cc63f7a054bf66b8e8138c04f33c3c382288b3671f0998f5bbfff2881565087",
+      "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.5/wordbook-bob-plugin-v0.1.5.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
     {
       "version": "0.1.4",
       "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.4",
