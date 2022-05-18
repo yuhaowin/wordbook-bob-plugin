@@ -1,6 +1,6 @@
 {
   "identifier": "wordbook-bob-plugin",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "category": "translate",
   "name": "词典单词本插件",
   "summary": "word book plugin, add word to youdao/eudic word book",
@@ -23,6 +23,10 @@
         {
           "title": "欧路词典",
           "value": "2"
+        },
+        {
+          "title": "扇贝单词",
+          "value": "3"
         }
       ]
     },

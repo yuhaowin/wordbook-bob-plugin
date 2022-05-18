@@ -10,6 +10,7 @@ cookie](https://github.com/ripperhe/Bob/issues/115)。
 
 2、`欧路词典` 是通过开放 api 添加到指导单词本，但是需要指定单词本的 id，可以通过 api 获取单词本 id。
 
+3、`扇贝单词` 是通过 api 添加到指导单词本，需要登录后从网页获取auth_token
 ## 设置
 
 ![](imgs/1.png)
@@ -35,6 +36,11 @@ cookie](https://github.com/ripperhe/Bob/issues/115)。
 3、获取单词本ID
 
 ![](imgs/4.png)
+
+## 扇贝单词获取 token
+1. [登录扇贝](https://www.shanbay.com/)
+2. 在浏览器中按F12
+3. 随便点击一下一面，查看Header中的auth_token
 
 ## 效果
 
