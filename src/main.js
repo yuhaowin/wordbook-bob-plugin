@@ -2,14 +2,15 @@
  * 单词本插件
  */
 
+var YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
+
+var SHANBAY_ADD_URL = "https://apiv3.shanbay.com/wordscollection/words"
+var SHANBAY_QUERY_URL = "https://apiv3.shanbay.com/abc/words/senses?vocabulary_content="
+
 // 欧路单词本 ID
 var EUDIC_WORD_BOOK_ID
-var YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
 var EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
 var EUDIC_BOOK_LIST_URL = "https://api.frdic.com/api/open/v1/studylist/category?language=en";
-
-var SHANBAY_ADD_URL = "https://apiv3.shanbay.com/news/words"
-var SHANBAY_QUERY_URL = "https://apiv3.shanbay.com/wsd-abc/words/complex_words_senses"
 
 function buildResult(res) {
     var result = {
@@ -156,45 +157,37 @@ function queryEudicWordbookIds(token, completion) {
 }
 
 function addWordShanbay(token, word, completion) {
-    var wordid = "";
     $http.get({
-        url: SHANBAY_QUERY_URL,
+        url: SHANBAY_QUERY_URL + encodeURIComponent(word),
         header: {
-            'auth_token': token,
-            'Host': 'apiv3.shanbay.com'
-        },
-        body: {
-            'word': word
+            "Cookie": `auth_token=${token}`,
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'zh-CN,zh;q=0.9',
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
         },
         handler: function (res) {
-            var data = res.data;
-            wordid = data.objects[0].id;
-            if (wordid == "") {
-                completion({'error': buildError("找不到单词" + word)});
-            } else {
+            if (res.data.id) {
                 $http.post({
                     url: SHANBAY_ADD_URL,
                     header: {
-                        'auth_token': token,
-                        'Host': 'apiv3.shanbay.com',
-                        'Content-Type': 'application/json'
+                        "Cookie": `auth_token=${token}`,
+                        'Content-Type': 'application/json',
+                        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
                     },
                     body: {
-                        'summary': word,
-                        'business_id': 1,
-                        'vocab_id': wordid
+                        business_id: 6,
+                        vocab_id: res.data.id
                     },
-                    handler: function (res2) {
-                        var data2 = res2.data;
-                        if (data2.vocab_id == wordid) {
-                            completion({'result': buildResult("添加单词成功")});
-                        } else {
-                            completion({'error': buildError("添加单词失败")});
-                            $log.info('接口返回值 data : ' + JSON.stringify(data2));
-                        }
+                    handler: function (res0) {
+                        completion({'result': buildResult("添加单词本成功")});
                     }
                 });
+            } else {
+                completion({'error': buildError("添加单词失败")});
+                $log.info('接口返回值 data : ' + JSON.stringify(res.data));
             }
         }
-    });
+    })
 }
