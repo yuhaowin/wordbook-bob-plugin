@@ -8,9 +8,8 @@ var YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
 var EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
 var EUDIC_BOOK_LIST_URL = "https://api.frdic.com/api/open/v1/studylist/category?language=en";
 
-var SHANBAY_QUERY_URL = "https://apiv3.shanbay.com/wsd-abc/words/complex_words_senses"
 var SHANBAY_ADD_URL = "https://apiv3.shanbay.com/news/words"
-
+var SHANBAY_QUERY_URL = "https://apiv3.shanbay.com/wsd-abc/words/complex_words_senses"
 
 function buildResult(res) {
     var result = {
@@ -69,7 +68,7 @@ function addWord(selectDict, authorization, word, completion) {
             queryEudicWordbookIds(authorization, completion)
         }
     }
-    if (selectDict == 3) { //保存扇贝单词本
+    if (selectDict == 3) { // 保存扇贝单词本
         addWordShanbay(authorization, word, completion);
     }
 }
@@ -158,7 +157,6 @@ function queryEudicWordbookIds(token, completion) {
 
 function addWordShanbay(token, word, completion) {
     var wordid = "";
-    var mylog = "";
     $http.get({
         url: SHANBAY_QUERY_URL,
         header: {
@@ -171,19 +169,19 @@ function addWordShanbay(token, word, completion) {
         handler: function (res) {
             var data = res.data;
             wordid = data.objects[0].id;
-            if ( wordid == "") {
-                completion({'error': buildError("找不到单词"+word)});
+            if (wordid == "") {
+                completion({'error': buildError("找不到单词" + word)});
             } else {
                 $http.post({
                     url: SHANBAY_ADD_URL,
                     header: {
                         'auth_token': token,
                         'Host': 'apiv3.shanbay.com',
-                        'Content-Type' : 'application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: {
-                        'business_id': 1,
                         'summary': word,
+                        'business_id': 1,
                         'vocab_id': wordid
                     },
                     handler: function (res2) {

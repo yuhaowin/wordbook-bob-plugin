@@ -2,8 +2,8 @@
   "identifier": "wordbook-bob-plugin",
   "version": "0.1.6",
   "category": "translate",
-  "name": "词典单词本插件",
-  "summary": "word book plugin, add word to youdao/eudic word book",
+  "name": "单词本插件",
+  "summary": "word book plugin, add word to youdao/eudic/shanday word book",
   "icon": "",
   "author": "Eric_余浩",
   "homepage": "https://blog.yuhaowin.com/post/2021-01-03-youdao-word-book-plugin",
@@ -38,7 +38,7 @@
     {
       "identifier": "wordbookId",
       "type": "text",
-      "title": "单词本ID"
+      "title": "欧路单词本ID"
     }
   ]
 }
