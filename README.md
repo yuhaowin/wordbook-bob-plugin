@@ -10,14 +10,14 @@ cookie](https://github.com/ripperhe/Bob/issues/115)。
 
 2、`欧路词典` 是通过开放 api 添加到指导单词本，但是需要指定单词本的 id，可以通过 api 获取单词本 id。
 
-3、`扇贝单词` 是通过 api 添加到指导单词本，需要登录后从网页获取auth_token
+3、`扇贝单词` 是通过 api 添加到指导单词本，需要登录后从网页获取 auth_token
 ## 设置
 
 ![](imgs/1.png)
 
 ## 有道词典获取 cookie
 
-1、[登录有道词典](http://account.youdao.com/login)
+1、[登录有道词典](https://dict.youdao.com/)
 
 2、如下图操作：
 
