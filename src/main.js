@@ -2,7 +2,7 @@
  * 单词本插件
  */
 
-var YOUDAO_ADD_WORD_URL = "http://dict.youdao.com/wordbook/ajax";
+var YOUDAO_ADD_WORD_URL = "https://dict.youdao.com/wordbook/webapi/v2/ajax/add?lan=en&word=";
 
 var SHANBAY_ADD_URL = "https://apiv3.shanbay.com/wordscollection/words"
 var SHANBAY_QUERY_URL = "https://apiv3.shanbay.com/abc/words/senses?vocabulary_content="
@@ -105,7 +105,7 @@ function addWordEudic(token, word, completion) {
 
 function addWordYoudao(cookie, word, completion) {
     $http.get({
-        url: YOUDAO_ADD_WORD_URL,
+        url: YOUDAO_ADD_WORD_URL + encodeURIComponent(word),
         header: {
             'Cookie': cookie,
             'Host': 'dict.youdao.com',
@@ -113,19 +113,12 @@ function addWordYoudao(cookie, word, completion) {
             'Accept-Encoding': 'gzip, deflate',
             'Accept-Language': 'zh-CN,zh;q=0.9',
             'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Referer': 'http://dict.youdao.com/wordbook/wordlist?keyfrom=dict2.index',
+            'Referer': 'https://dict.youdao.com',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
-        },
-        body: {
-            'q': word,
-            'le': 'eng',
-            'action': 'addword'
         },
         handler: function (res) {
             var data = res.data;
-            var message = data.message;
-            if (!message === 'nouser') {
+            if (data.code === 0) {
                 completion({'result': buildResult("添加单词成功")});
             } else {
                 completion({'error': buildError('cookie 已经过期，请重新获取。')});
