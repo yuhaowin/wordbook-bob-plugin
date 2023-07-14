@@ -1,1 +1,68 @@
-{ "identifier": "wordbook-bob-plugin", "versions": [ { "version": "0.1.8", "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.8", "sha256": "9653645f46b47af69b65de165f2ea87e07eb5ba82e46044b90baaf3907a03d36", "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.8/wordbook-bob-plugin-v0.1.8.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.7", "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.7", "sha256": "a8208859e02a571dd3e0597b61a2a84a67de7f56953bf28a99aafc23e1caf5c6", "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.7/wordbook-bob-plugin-v0.1.7.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.6", "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.6", "sha256": "e030b33c99716946b45c685641a4660dd263f74b309dcc3bd1a82653441b41f3", "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.6/wordbook-bob-plugin-v0.1.6.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.5", "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.5", "sha256": "55bca4fa159d37096aee8fbef2cd02ffc72e66d40c2d4db9bd3f71953ee6c4e5", "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.5/wordbook-bob-plugin-v0.1.5.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.4", "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.4", "sha256": "9cc63f7a054bf66b8e8138c04f33c3c382288b3671f0998f5bbfff2881565087", "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.4/youdao-wordbook-bob-plugin-v0.1.4.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.3", "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.3", "sha256": "8ba656bfb4081ee08e1cbb0a2a8c226ac411ca074d194326f6b3f095d5c176d3", "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.3/youdao-wordbook-bob-plugin-v0.1.3.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.2", "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.2", "sha256": "67a6240d58557907f4bfa739c15d24a638cd597f236776a544aae3a35e8fbbc9", "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.2/youdao-wordbook-bob-plugin-v0.1.2.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.1", "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.1", "sha256": "aadf5188c05aad613889849c35e04fdd28048196e492660ed85ed31407f13ea1", "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.1/youdao-wordbook-bob-plugin-v0.1.1.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.0", "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.0", "sha256": "26d0fd4e5ac32af3767ebb47437a927209c5bfe4c9c44aabaa00dae6a2a97d48", "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.0/youdao-wordbook-bob-plugin-v0.1.0.bobplugin", "minBobVersion": "0.5.4" }, { "version": "0.1.9", "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.9", "sha256": "ab397dbcf2497db754b5c9e79d25256f2aff39ad11b50fc3c7e08a176065b3b9", "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.9/wordbook-bob-plugin-v0.1.9.bobplugin", "minBobVersion": "0.5.4" } ] }
+{
+  "identifier": "wordbook-bob-plugin",
+  "versions": [
+    {
+      "version": "0.1.0",
+      "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.0",
+      "sha256": "26d0fd4e5ac32af3767ebb47437a927209c5bfe4c9c44aabaa00dae6a2a97d48",
+      "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.0/youdao-wordbook-bob-plugin-v0.1.0.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
+    {
+      "version": "0.1.1",
+      "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.1",
+      "sha256": "aadf5188c05aad613889849c35e04fdd28048196e492660ed85ed31407f13ea1",
+      "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.1/youdao-wordbook-bob-plugin-v0.1.1.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
+    {
+      "version": "0.1.2",
+      "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.2",
+      "sha256": "67a6240d58557907f4bfa739c15d24a638cd597f236776a544aae3a35e8fbbc9",
+      "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.2/youdao-wordbook-bob-plugin-v0.1.2.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
+    {
+      "version": "0.1.3",
+      "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.3",
+      "sha256": "8ba656bfb4081ee08e1cbb0a2a8c226ac411ca074d194326f6b3f095d5c176d3",
+      "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.3/youdao-wordbook-bob-plugin-v0.1.3.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
+    {
+      "version": "0.1.4",
+      "desc": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/tag/v0.1.4",
+      "sha256": "9cc63f7a054bf66b8e8138c04f33c3c382288b3671f0998f5bbfff2881565087",
+      "url": "https://github.com/yuhaowin/youdao-wordbook-bob-plugin/releases/download/v0.1.4/youdao-wordbook-bob-plugin-v0.1.4.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
+    {
+      "version": "0.1.5",
+      "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.5",
+      "sha256": "55bca4fa159d37096aee8fbef2cd02ffc72e66d40c2d4db9bd3f71953ee6c4e5",
+      "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.5/wordbook-bob-plugin-v0.1.5.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
+    {
+      "version": "0.1.6",
+      "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.6",
+      "sha256": "e030b33c99716946b45c685641a4660dd263f74b309dcc3bd1a82653441b41f3",
+      "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.6/wordbook-bob-plugin-v0.1.6.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
+    {
+      "version": "0.1.7",
+      "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.7",
+      "sha256": "a8208859e02a571dd3e0597b61a2a84a67de7f56953bf28a99aafc23e1caf5c6",
+      "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.7/wordbook-bob-plugin-v0.1.7.bobplugin",
+      "minBobVersion": "0.5.4"
+    },
+    {
+      "version": "0.1.8",
+      "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.1.8",
+      "sha256": "9653645f46b47af69b65de165f2ea87e07eb5ba82e46044b90baaf3907a03d36",
+      "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.1.8/wordbook-bob-plugin-v0.1.8.bobplugin",
+      "minBobVersion": "0.5.4"
+    }
+  ]
+}
