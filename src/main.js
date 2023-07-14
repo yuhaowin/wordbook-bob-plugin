@@ -2,10 +2,11 @@
  * 单词本插件
  */
 
+// 有道单词本
 var YOUDAO_ADD_WORD_URL = "https://dict.youdao.com/wordbook/webapi/v2/ajax/add?lan=en&word=";
 
-var SHANBAY_ADD_URL = "https://apiv3.shanbay.com/wordscollection/words"
-var SHANBAY_QUERY_URL = "https://apiv3.shanbay.com/abc/words/senses?vocabulary_content="
+// 扇贝单词本
+var SHANBAY_ADD_WORD_URL = "https://apiv3.shanbay.com/wordscollection/words_bulk_upload"
 
 // 欧路单词本 ID
 var EUDIC_WORD_BOOK_ID
@@ -150,37 +151,26 @@ function queryEudicWordbookIds(token, completion) {
 }
 
 function addWordShanbay(token, word, completion) {
-    $http.get({
-        url: SHANBAY_QUERY_URL + encodeURIComponent(word),
+    $http.post({
+        url: SHANBAY_ADD_WORD_URL,
         header: {
             "Cookie": `auth_token=${token}`,
-            'Accept-Encoding': 'gzip, deflate',
-            'Accept-Language': 'zh-CN,zh;q=0.9',
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
         },
+        body: {
+            "business_id": 6,
+            "words": [
+                word
+            ]
+        },
         handler: function (res) {
-            if (res.data.id) {
-                $http.post({
-                    url: SHANBAY_ADD_URL,
-                    header: {
-                        "Cookie": `auth_token=${token}`,
-                        'Content-Type': 'application/json',
-                        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
-                    },
-                    body: {
-                        business_id: 6,
-                        vocab_id: res.data.id
-                    },
-                    handler: function (res0) {
-                        completion({'result': buildResult("添加单词本成功")});
-                    }
-                });
+            if (res.response.statusCode === 200) {
+                completion({'result': buildResult("添加单词本成功")});
             } else {
-                completion({'error': buildError("添加单词失败")});
-                $log.info('接口返回值 data : ' + JSON.stringify(res.data));
+                completion({'error': buildError('添加单词失败，请检查 auth_token 是否已经过期。')});
+                $log.info('接口返回值 data : ' + JSON.stringify(data));
             }
         }
-    })
+    });
 }
