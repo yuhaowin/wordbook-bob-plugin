@@ -1,12 +1,12 @@
 {
   "identifier": "wordbook-bob-plugin",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "category": "translate",
   "name": "单词本插件",
   "summary": "word book plugin, add word to youdao/eudic/shanday word book",
   "icon": "",
   "author": "Eric_余浩",
-  "homepage": "https://blog.yuhaowin.com/2021-01-03-youdao-word-book-plugin",
+  "homepage": "https://blog.yuhaowin.com/2021-01-03-wordbook-bob-plugin",
   "appcast": "https://raw.githubusercontent.com/yuhaowin/wordbook-bob-plugin/main/appcast.json",
   "minBobVersion": "0.5.4",
   "options": [
