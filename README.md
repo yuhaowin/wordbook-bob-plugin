@@ -33,15 +33,17 @@ cookie](https://github.com/ripperhe/Bob/issues/115)。
 
 ![](imgs/3.png)
 
-3、获取单词本ID
+3、获取单词本 id
+> 如果不知道单词本 id，可以先不填写单词本 id, 输入任意单词查询后，会返回所有的单词本 id，选择其中你需要的 id 填入即可。
 
 ![](imgs/4.png)
 
-## 扇贝单词获取 token
-1. [登录扇贝](https://www.shanbay.com/)
-2. 在浏览器中按F12
-3. 随便点击一下一面，查看Header中的auth_token
+## 扇贝单词获取 auth_token
+1、[登录扇贝](https://www.shanbay.com/)
 
+3、随便点击一个页面，获取 cookie 中的 auth_token，确保 auth_token 正确
+
+![](imgs/6.png)
 ## 效果
 
 ![](imgs/5.png)
