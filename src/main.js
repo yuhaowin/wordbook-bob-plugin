@@ -25,6 +25,16 @@ function buildResult(res) {
     return result;
 }
 
+function unsupporMsg(str){
+    var result = {
+        'error': {
+          type: 'unsupportLanguage',
+          message: str
+        }
+    }
+    return result;
+}
+
 function buildError(res) {
     var result = {
         'type': 'param',
@@ -50,12 +60,12 @@ function translate(query, completion) {
     var endString = $option.endString
 
     if (fromLanguage != 'en' || text.search(' ') > 0) {
-        completion({'result': buildResult("中文、非英语单词无需添加单词本")});
+        completion(unsupporMsg("中文、非英语单词无需添加单词本"));
         return;
     }
 
     if(onDemand == 1 && !text.endsWith(endString)) {
-        completion({'result': buildResult(`开启按须导入, 保存请在尾部添加 '${endString}'`)});
+        completion(unsupporMsg(`开启按须导入, 保存请在尾部添加 '${endString}'`));
         return;
     }
 
