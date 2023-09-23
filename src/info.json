@@ -1,6 +1,6 @@
 {
   "identifier": "wordbook-bob-plugin",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "category": "translate",
   "name": "单词本插件",
   "summary": "word book plugin, add word to youdao/eudic/shanday word book",
@@ -38,7 +38,28 @@
     {
       "identifier": "wordbookId",
       "type": "text",
-      "title": "欧路单词本ID"
+      "title": "单词本ID"
+    },
+    {
+      "identifier": "onDemand",
+      "type": "menu",
+      "title": "按须导入",
+      "defaultValue": "0",
+      "menuValues": [
+        {
+          "title": "关闭",
+          "value": "0"
+        },
+        {
+          "title": "开启",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "identifier": "endString",
+      "type": "text",
+      "title": "结束的字符"
     }
   ]
 }

@@ -46,9 +46,16 @@ function translate(query, completion) {
     var selectDict = $option.selectDict;
     var authorization = $option.authorization;
     EUDIC_WORD_BOOK_ID = $option.wordbookId;
+    var onDemand = $option.onDemand
+    var endString = $option.endString
 
     if (fromLanguage != 'en' || text.search(' ') > 0) {
         completion({'result': buildResult("中文、非英语单词无需添加单词本")});
+        return;
+    }
+
+    if(onDemand == 1 && !text.endsWith(endString)) {
+        completion({'result': buildResult(`开启按须导入, 保存请在尾部添加 '${endString}'`)});
         return;
     }
 
