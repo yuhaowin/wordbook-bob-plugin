@@ -59,7 +59,8 @@
     {
       "identifier": "endChar",
       "type": "text",
-      "title": "结束的字符"
+      "title": "结束的字符",
+      "defaultValue": "@"
     }
   ]
 }

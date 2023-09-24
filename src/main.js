@@ -49,7 +49,7 @@ function translate(query, completion) {
     var onDemand = $option.onDemand
     var endChar = $option.endChar
 
-    if (fromLanguage != 'en' || text.search(' ') > 1) {
+    if (fromLanguage != 'en' || text.search(' ') > 0) {
         completion(
           {
             error: {
