@@ -46,10 +46,36 @@ function translate(query, completion) {
     var selectDict = $option.selectDict;
     var authorization = $option.authorization;
     EUDIC_WORD_BOOK_ID = $option.wordbookId;
+    var onDemand = $option.onDemand
+    var endChar = $option.endChar
 
-    if (fromLanguage != 'en' || text.search(' ') > 0) {
-        completion({'result': buildResult("中文、非英语单词无需添加单词本")});
+    if (fromLanguage != 'en' || text.search(' ') > 1) {
+        completion(
+          {
+            error: {
+              type: 'unsupportLanguage',
+              message: "中文、非英语单词无需添加单词本"
+            }
+          }
+        )
         return;
+    }
+
+    if(onDemand == 1 && !text.endsWith(endChar)) {
+        completion({
+          result: {
+            "toDict": {
+              "parts": [{ "part": "---", "means": ["---"] }],
+              "exchanges": [{ "name": "点击添加", "words": [`${text}${endChar}`] }],
+            },
+            "toParagraphs": ['--- ---']
+          }
+        })
+        return;
+    }
+
+    if(onDemand == 1 &&  text.endsWith(endChar)) {
+      text = text.replace(endChar, '')
     }
 
     if (authorization) {
