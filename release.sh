@@ -9,7 +9,7 @@ echo $sha256_wordbook
 
 download_link="https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v$version/wordbook-bob-plugin-v$version.bobplugin"
 
-new_version="{\"version\": \"$version\", \"desc\": \"https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v$version\", \"sha256\": \"$sha256_wordbook\", \"url\": \"$download_link\", \"minBobVersion\": \"0.5.4\"}"
+new_version="{\"version\": \"$version\", \"desc\": \"https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v$version\", \"sha256\": \"$sha256_wordbook\", \"url\": \"$download_link\", \"minBobVersion\": \"1.12.0\"}"
 
 json_file='appcast.json'
 json_data=$(cat $json_file)

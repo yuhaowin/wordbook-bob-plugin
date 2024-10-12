@@ -1,6 +1,6 @@
 {
   "identifier": "wordbook-bob-plugin",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "category": "translate",
   "name": "单词本插件",
   "summary": "word book plugin, add word to youdao/eudic/shanday word book",
@@ -8,12 +8,12 @@
   "author": "Eric_余浩",
   "homepage": "https://blog.yuhaowin.com/2021-01-03-wordbook-bob-plugin",
   "appcast": "https://raw.githubusercontent.com/yuhaowin/wordbook-bob-plugin/main/appcast.json",
-  "minBobVersion": "0.5.4",
+  "minBobVersion": "1.12.0",
   "options": [
     {
-      "identifier": "selectDict",
+      "identifier": "dict_type",
       "type": "menu",
-      "title": "选择词典",
+      "title": "词典类型",
       "defaultValue": "1",
       "menuValues": [
         {
@@ -36,9 +36,25 @@
       "title": "认证信息"
     },
     {
-      "identifier": "wordbookId",
+      "identifier": "word_only",
+      "type": "menu",
+      "title": "仅保存单词",
+      "defaultValue": "1",
+      "menuValues": [
+        {
+          "title": "是",
+          "value": "1"
+        },
+        {
+          "title": "否",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "identifier": "wordbook_id",
       "type": "text",
-      "title": "欧路单词本ID"
+      "title": "欧路单词本 id"
     }
   ]
 }

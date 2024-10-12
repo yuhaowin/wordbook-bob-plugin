@@ -36,22 +36,79 @@ function buildError(res) {
 
 // override
 function supportLanguages() {
-    return ['auto', 'zh-Hans', 'en'];
+    return ['zh-Hans', 'en'];
+}
+
+// override
+function pluginValidate(completion) {
+    var authorization = $option.authorization;
+    var dict_type = $option.dict_type;
+    var wordbook_id = $option.wordbook_id
+    if (!authorization) {
+        completion({
+            result: false,
+            error: {
+                type: "secretKey",
+                message: "未设置认证信息。",
+                troubleshootingLink: "https://github.com/yuhaowin/wordbook-bob-plugin"
+            }
+        });
+        return;
+    }
+    if (dict_type == 2 && !wordbook_id) {
+        queryEudicWordbookIds(authorization, completion)
+        return
+    }
+    completion({result: true});
+}
+
+function queryEudicWordbookIds(token, completion) {
+    $http.get({
+        url: EUDIC_BOOK_LIST_URL,
+        header: {
+            'Authorization': token,
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+        },
+        handler: function (res) {
+            var statusCode = res.response.statusCode;
+            if (statusCode === 200) {
+                var data = res.data.data;
+                completion({
+                    result: false,
+                    error: {
+                        type: "param",
+                        message: "请选择欧路词典单词本 id : \r\n" + JSON.stringify(data, null, 4)
+                    }
+                });
+            } else {
+                completion({
+                    result: false,
+                    error: {
+                        type: "param",
+                        message: "欧路词典 token 错误或过期，请重新填写。",
+                        troubleshootingLink: "https://github.com/yuhaowin/wordbook-bob-plugin"
+                    }
+                });
+                $log.info('接口返回值 data : ' + JSON.stringify(data));
+            }
+        }
+    });
 }
 
 // override
 function translate(query, completion) {
     var text = query.text;
     var fromLanguage = query.detectFrom;
-    var selectDict = $option.selectDict;
+    var selectDict = $option.dict_type;
+    var word_only = $option.word_only;
     var authorization = $option.authorization;
-    EUDIC_WORD_BOOK_ID = $option.wordbookId;
-
-    if (fromLanguage != 'en' || text.search(' ') > 0) {
+    EUDIC_WORD_BOOK_ID = $option.wordbook_id;
+    var need_save = (word_only == 0 || text.search(' ') < 1);
+    if (fromLanguage != 'en' || !need_save) {
         completion({'result': buildResult("中文、非英语单词无需添加单词本")});
         return;
     }
-
     if (authorization) {
         addWord(selectDict, authorization, text, completion);
     } else {
@@ -64,15 +121,36 @@ function addWord(selectDict, authorization, word, completion) {
         addWordYoudao(authorization, word, completion);
     }
     if (selectDict == 2) { // 保存欧路单词本
-        if (EUDIC_WORD_BOOK_ID) {
-            addWordEudic(authorization, word, completion);
-        } else {
-            queryEudicWordbookIds(authorization, completion)
-        }
+        addWordEudic(authorization, word, completion);
     }
     if (selectDict == 3) { // 保存扇贝单词本
         addWordShanbay(authorization, word, completion);
     }
+}
+
+function addWordYoudao(cookie, word, completion) {
+    $http.get({
+        url: YOUDAO_ADD_WORD_URL + encodeURIComponent(word),
+        header: {
+            'Cookie': cookie,
+            'Host': 'dict.youdao.com',
+            'Upgrade-Insecure-Requests': 1,
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'zh-CN,zh;q=0.9',
+            'Accept': 'application/json, text/plain, */*',
+            'Referer': 'https://dict.youdao.com',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+        },
+        handler: function (res) {
+            var data = res.data;
+            if (data.code === 0) {
+                completion({'result': buildResult("添加单词成功")});
+            } else {
+                completion({'error': buildError('有道词典 cookie 错误或过期，请重新填写。')});
+                $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
+            }
+        }
+    });
 }
 
 function addWordEudic(token, word, completion) {
@@ -97,54 +175,8 @@ function addWordEudic(token, word, completion) {
             if (statusCode === 201) {
                 completion({'result': buildResult("添加单词成功")});
             } else {
-                completion({'error': buildError('token 已经过期，请重新获取。')});
+                completion({'error': buildError('欧路词典 token 错误或过期，请重新填写。')});
                 $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
-            }
-        }
-    });
-}
-
-function addWordYoudao(cookie, word, completion) {
-    $http.get({
-        url: YOUDAO_ADD_WORD_URL + encodeURIComponent(word),
-        header: {
-            'Cookie': cookie,
-            'Host': 'dict.youdao.com',
-            'Upgrade-Insecure-Requests': 1,
-            'Accept-Encoding': 'gzip, deflate',
-            'Accept-Language': 'zh-CN,zh;q=0.9',
-            'Accept': 'application/json, text/plain, */*',
-            'Referer': 'https://dict.youdao.com',
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
-        },
-        handler: function (res) {
-            var data = res.data;
-            if (data.code === 0) {
-                completion({'result': buildResult("添加单词成功")});
-            } else {
-                completion({'error': buildError('cookie 已经过期，请重新获取。')});
-                $log.info('addWord 接口返回值 data : ' + JSON.stringify(data));
-            }
-        }
-    });
-}
-
-function queryEudicWordbookIds(token, completion) {
-    $http.get({
-        url: EUDIC_BOOK_LIST_URL,
-        header: {
-            'Authorization': token,
-            'Content-Type': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
-        },
-        handler: function (res) {
-            var statusCode = res.response.statusCode;
-            if (statusCode === 200) {
-                var data = res.data.data;
-                completion({'result': buildResult("单词本列表：\r\n" + JSON.stringify(data, null, 4))});
-            } else {
-                completion({'error': buildError('token 已经过期，请重新获取。')});
-                $log.info('接口返回值 data : ' + JSON.stringify(data));
             }
         }
     });
@@ -168,7 +200,7 @@ function addWordShanbay(token, word, completion) {
             if (res.response.statusCode === 200) {
                 completion({'result': buildResult("添加单词本成功")});
             } else {
-                completion({'error': buildError('添加单词失败，请检查 auth_token 是否已经过期。')});
+                completion({'error': buildError('扇贝词典 auth_token 错误或过期，请重新填写。')});
                 $log.info('接口返回值 data : ' + JSON.stringify(data));
             }
         }
