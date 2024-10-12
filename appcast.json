@@ -77,6 +77,13 @@
       "sha256": "7f39fc8b4b5a93ca5e63854db2e4c8ad909ad3ec5f678309d7457cb6f5ff7a08",
       "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.2.1/wordbook-bob-plugin-v0.2.1.bobplugin",
       "minBobVersion": "1.12.0"
+    },
+    {
+      "version": "0.2.2",
+      "desc": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/tag/v0.2.2",
+      "sha256": "4efe4d305280a593d551be095767f16a92c3a85b0baecde8c286089495c0e107",
+      "url": "https://github.com/yuhaowin/wordbook-bob-plugin/releases/download/v0.2.2/wordbook-bob-plugin-v0.2.2.bobplugin",
+      "minBobVersion": "1.12.0"
     }
   ]
 }
