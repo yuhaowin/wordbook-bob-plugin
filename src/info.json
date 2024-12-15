@@ -1,6 +1,6 @@
 {
   "identifier": "wordbook-bob-plugin",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "category": "translate",
   "name": "单词本插件",
   "summary": "word book plugin, add word to youdao/eudic/shanday word book",
