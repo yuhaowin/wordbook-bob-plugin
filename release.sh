@@ -16,6 +16,4 @@ json_data=$(cat $json_file)
 
 updated_json=$(echo $json_data | jq --argjson new_version "$new_version" '.versions += [$new_version]')
 
-echo $updated_json  | jq . >$json_file
-mkdir dist
-mv *.bobplugin dist
+echo $updated_json  | jq . >$json
