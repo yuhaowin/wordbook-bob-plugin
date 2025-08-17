@@ -1,14 +1,14 @@
 {
   "identifier": "wordbook-bob-plugin",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "category": "translate",
-  "name": "单词本插件",
-  "summary": "word book plugin, add word to youdao/eudic/shanday word book",
-  "icon": "",
-  "author": "Eric_余浩",
-  "homepage": "https://blog.yuhaowin.com/2021-01-03-wordbook-bob-plugin",
-  "appcast": "https://raw.githubusercontent.com/yuhaowin/wordbook-bob-plugin/main/appcast.json",
-  "minBobVersion": "1.12.0",
+  "name": "单词本插件（本地过滤 + 火山LLM 5s兜底）",
+  "summary": "本地严格过滤 + 火山LLM判定；LLM超时>5s则默认通过并写入单词本。有道/欧路/扇贝皆可写入。",
+  "icon": "icon.png",
+  "author": "Eric_余浩|Alex",
+  "homepage": "https://bobtranslate.com/plugin/api/http.html",
+  "appcast": "",
+  "minBobVersion": "1.8.0",
   "options": [
     {
       "identifier": "dict_type",
@@ -16,55 +16,65 @@
       "title": "词典类型",
       "defaultValue": "1",
       "menuValues": [
-        {
-          "title": "有道词典",
-          "value": "1"
-        },
-        {
-          "title": "欧路词典",
-          "value": "2"
-        },
-        {
-          "title": "扇贝单词",
-          "value": "3"
-        }
+        { "title": "有道词典", "value": "1" },
+        { "title": "欧路词典", "value": "2" },
+        { "title": "扇贝单词", "value": "3" }
       ]
     },
     {
       "identifier": "authorization",
       "type": "text",
       "title": "认证信息",
-      "textConfig": {
-        "type": "secure",
-        "placeholderText": "填写 api token"
-      }
+      "desc": "有道/欧路/扇贝所需的 Cookie/Token",
+      "textConfig": { "type": "secure", "placeholderText": "填写各服务所需的 Cookie 或 API Token" }
     },
     {
       "identifier": "word_only",
       "type": "menu",
-      "title": "仅保存单词",
-      "desc": "是否仅保存「单词」或「词组」。",
+      "title": "仅保存单词（含空格即拒）",
       "defaultValue": "1",
       "menuValues": [
-        {
-          "title": "是",
-          "value": "1"
-        },
-        {
-          "title": "否",
-          "value": "0"
-        }
+        { "title": "是", "value": "1" },
+        { "title": "否", "value": "0" }
       ]
+    },
+    {
+      "identifier": "volcano_api_key",
+      "type": "text",
+      "title": "火山 API Key",
+      "textConfig": { "type": "secure", "placeholderText": "在方舟控制台创建并复制 API Key" }
+    },
+    {
+      "identifier": "volcano_endpoint",
+      "type": "text",
+      "title": "火山 Endpoint（基址）",
+      "desc": "示例：https://ark.cn-beijing.volces.com/api/v3",
+      "textConfig": { "type": "visible", "placeholderText": "https://ark.cn-beijing.volces.com/api/v3" }
+    },
+    {
+      "identifier": "volcano_model",
+      "type": "text",
+      "title": "火山模型名称",
+      "desc": "如 doubao-pro-128k / 你的接入点 ep-xxxxx",
+      "textConfig": { "type": "visible", "placeholderText": "填写模型或接入点名称" }
+    },
+    {
+      "identifier": "llm_system_prompt",
+      "type": "text",
+      "title": "LLM 系统提示词（可空）",
+      "textConfig": { "type": "visible", "placeholderText": "留空则使用内置" }
+    },
+    {
+      "identifier": "word_check_timeout_ms",
+      "type": "text",
+      "title": "LLM 超时（毫秒）",
+      "textConfig": { "type": "visible", "placeholderText": "5000" }
     },
     {
       "identifier": "wordbook_id",
       "type": "text",
-      "title": "欧路单词本 id",
-      "desc": "仅词典类型为「欧路词典」时需要填写。",
-      "textConfig": {
-        "type": "visible",
-        "placeholderText": "点击「验证」获取已有单词本 id，填入后再次点击「验证」确认是否正确。"
-      }
+      "title": "欧路单词本 id（仅欧路需要）",
+      "textConfig": { "type": "visible", "placeholderText": "在验证中选择或自行填写" }
     }
   ]
 }
