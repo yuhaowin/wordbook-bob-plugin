@@ -1,6 +1,6 @@
 {
   "identifier": "wordbook-bob-plugin",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "category": "translate",
   "name": "单词本插件",
   "summary": "word book plugin, add word to youdao/eudic/shanday word book",
@@ -27,6 +27,10 @@
         {
           "title": "扇贝单词",
           "value": "3"
+        },
+        {
+          "title": "墨墨背单词",
+          "value": "4"
         }
       ]
     },
@@ -61,6 +65,16 @@
       "type": "text",
       "title": "欧路单词本 id",
       "desc": "仅词典类型为「欧路词典」时需要填写。",
+      "textConfig": {
+        "type": "visible",
+        "placeholderText": "点击「验证」获取已有单词本 id，填入后再次点击「验证」确认是否正确。"
+      }
+    },
+    {
+      "identifier": "maimemo_notepad_id",
+      "type": "text",
+      "title": "墨墨单词本 id",
+      "desc": "仅词典类型为「墨墨背单词」时需要填写。",
       "textConfig": {
         "type": "visible",
         "placeholderText": "点击「验证」获取已有单词本 id，填入后再次点击「验证」确认是否正确。"

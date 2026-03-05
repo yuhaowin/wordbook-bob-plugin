@@ -12,6 +12,10 @@ var SHANBAY_ADD_WORD_URL = "https://apiv3.shanbay.com/wordscollection/words_bulk
 var EUDIC_ADD_WORD_URL = "https://api.frdic.com/api/open/v1/studylist/words";
 var EUDIC_BOOK_LIST_URL = "https://api.frdic.com/api/open/v1/studylist/category?language=en";
 
+// 墨墨背单词
+var MAIMEMO_ADD_WORD_URL = "https://open.maimemo.com/open/api/v1/notepads/";
+var MAIMEMO_NOTEPAD_LIST_URL = "https://open.maimemo.com/open/api/v1/notepads";
+
 function buildResult(res) {
     var result = {
         "from": "en",
@@ -71,6 +75,16 @@ function doValidate(selected_dict, authorization, completion) {
                     queryEudicWordbookIds(authorization, completion)
                 }
             });
+        }
+    }
+
+    // 验证墨墨背单词配置参数
+    if (selected_dict == 4) {
+        var notepad_id = $option.maimemo_notepad_id;
+        if (!notepad_id) {
+            queryMaiMemoNotepads(authorization, completion);
+        } else {
+            completion({result: true});
         }
     }
 }
@@ -146,6 +160,10 @@ function addWord(selected_dict, authorization, word, completion) {
     if (selected_dict == 3) { // 保存扇贝单词本
         addWordShanbay(authorization, word, completion);
     }
+    if (selected_dict == 4) { // 保存墨墨背单词本
+        var notepad_id = $option.maimemo_notepad_id;
+        addWordMaiMemo(authorization, word, notepad_id, completion);
+    }
 }
 
 function addWordYoudao(cookie, word, completion) {
@@ -212,6 +230,62 @@ function addWordShanbay(token, word, completion) {
             } else {
                 completion({'error': buildError('扇贝词典 auth_token 错误或过期，请重新填写。')});
                 $log.info('接口返回值 data : ' + JSON.stringify(data));
+            }
+        }
+    });
+}
+
+function queryMaiMemoNotepads(token, completion) {
+    $http.get({
+        url: MAIMEMO_NOTEPAD_LIST_URL,
+        header: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+        },
+        handler: function (res) {
+            var statusCode = res.response.statusCode;
+            if (statusCode === 200) {
+                var data = res.data.data;
+                completion({
+                    result: false,
+                    error: {
+                        type: "param",
+                        message: "请选择墨墨背单词单词本 id : \r\n" + JSON.stringify(data, null, 4)
+                    }
+                });
+            } else {
+                completion({
+                    result: false,
+                    error: {
+                        type: "param",
+                        message: "墨墨背单词 token 错误或过期，请重新填写。",
+                        troubleshootingLink: "https://github.com/yuhaowin/wordbook-bob-plugin"
+                    }
+                });
+                $log.info('接口返回值 data : ' + JSON.stringify(res.data));
+            }
+        }
+    });
+}
+
+function addWordMaiMemo(token, word, notepad_id, completion) {
+    $http.put({
+        url: MAIMEMO_ADD_WORD_URL + notepad_id + '/words',
+        header: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+        },
+        body: {
+            "content": word
+        },
+        handler: function (res) {
+            if (res.response.statusCode === 200) {
+                completion({'result': buildResult("添加单词成功")});
+            } else {
+                completion({'error': buildError('墨墨背单词 token 错误或过期，请重新填写。')});
+                $log.info('addWordMaiMemo 接口返回值 data : ' + JSON.stringify(res.data));
             }
         }
     });
