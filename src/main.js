@@ -60,53 +60,56 @@ function doValidate(selected_dict, authorization, completion) {
 
     // 验证欧路词典配置参数
     if (selected_dict == 2) {
-        var wordbook_id = $option.wordbook_id
-        if (!wordbook_id) {
-            queryEudicWordbookIds(authorization, completion)
-        } else {
-            addWordEudic(authorization, 'test', wordbook_id, function (res) {
-                if (201 === res.response.statusCode) {
+        var wordbook_id = $option.wordbook_id;
+        $http.get({
+            url: EUDIC_BOOK_LIST_URL,
+            header: {
+                'Authorization': authorization,
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+            },
+            handler: function (res) {
+                var statusCode = res.response.statusCode;
+                if (statusCode !== 200) {
+                    completion({
+                        result: false,
+                        error: {
+                            type: "param",
+                            message: "欧路词典 token 错误或过期，请重新填写。",
+                            troubleshootingLink: "https://github.com/yuhaowin/wordbook-bob-plugin"
+                        }
+                    });
+                    $log.info('doValidate 接口返回值 : ' + JSON.stringify(res.data));
+                    return;
+                }
+                var data = res.data.data;
+                if (!wordbook_id) {
+                    completion({
+                        result: false,
+                        error: {
+                            type: "param",
+                            message: "请选择欧路词典单词本 id : \r\n" + JSON.stringify(data, null, 4)
+                        }
+                    });
+                    return;
+                }
+                var found = data.some(function (book) { return String(book.id) === String(wordbook_id); });
+                if (found) {
                     completion({result: true});
                 } else {
-                    queryEudicWordbookIds(authorization, completion)
+                    completion({
+                        result: false,
+                        error: {
+                            type: "param",
+                            message: "单词本 id 不存在，请从以下列表中选择 : \r\n" + JSON.stringify(data, null, 4)
+                        }
+                    });
                 }
-            });
-        }
-    }
-}
-
-function queryEudicWordbookIds(token, completion) {
-    $http.get({
-        url: EUDIC_BOOK_LIST_URL,
-        header: {
-            'Authorization': token,
-            'Content-Type': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
-        },
-        handler: function (res) {
-            var statusCode = res.response.statusCode;
-            if (statusCode === 200) {
-                var data = res.data.data;
-                completion({
-                    result: false,
-                    error: {
-                        type: "param",
-                        message: "请选择欧路词典单词本 id : \r\n" + JSON.stringify(data, null, 4)
-                    }
-                });
-            } else {
-                completion({
-                    result: false,
-                    error: {
-                        type: "param",
-                        message: "欧路词典 token 错误或过期，请重新填写。",
-                        troubleshootingLink: "https://github.com/yuhaowin/wordbook-bob-plugin"
-                    }
-                });
-                $log.info('接口返回值 data : ' + JSON.stringify(data));
             }
-        }
-    });
+        });
+    } else {
+        completion({result: true});
+    }
 }
 
 // override
